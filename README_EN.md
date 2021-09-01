@@ -1,9 +1,9 @@
 # GrabCut-Annotation-Tool
 https://user-images.githubusercontent.com/37477845/131681382-020df52c-dbc7-4750-80d1-42ff141ba829.mp4
 
-OpenCVのGrabCut()を利用したアノテーションツールです。<br>
-セマンティックセグメンテーション向けのデータセット作成にご使用いただけます。<br>
-※GrabCutのアルゴリズムの都合上、境界がはっきりしているデータのアノテーションに向いています。<br>
+Annotation tool using GrabCut() of OpenCV.<br>
+It can be used to create datasets for semantic segmentation.<br>
+* Due to GrabCut's algorithm, it is suitable for annotation of data with clear boundaries.<br>
 
 # Requirement 
 * opencv-python 4.5.2.54 or later
@@ -27,98 +27,98 @@ OpenCVのGrabCut()を利用したアノテーションツールです。<br>
 </pre>
 
 #### app.py, core/gui.py, core/util.py
-ソースコードです。
+Source code.
 
 #### input
-アノテーション対象の画像ファイルを格納するディレクトリです。
+Image files are stored in this directory.
 
 #### output
-アノテーション結果を保存するディレクトリです。
-* image：リサイズした画像が格納されます
-* annotation：アノテーション結果が格納されます<br>※パレットモードのPNG形式で保存
+Directory to save annotation results.
+* image：The resized image is stored here
+* annotation：Annotation result is stored her<br> * Saved in PNG format in palette mode
 
 # Usage
-次のコマンドで起動してください。
+Start it with the following command.
 ```
 python app.py
 ```
-起動時には以下オプションが指定可能です。
+The following options can be specified.
 * --input<br>
-入力画像格納パス<br>
-デフォルト：input
+Input image storage path<br>
+Default：input
 * --output_image<br>
-アノテーション結果(画像)の格納パス<br>
-デフォルト：output/image
+Storage path of annotation result (image)<br>
+Default：output/image
 * --output_annotation<br>
-アノテーション結果(セグメンテーション画像)の格納パス<br>
-デフォルト：output/annotation
+Storage path of annotation result (segmentation image)<br>
+Default：output/annotation
 * --config<br>
-ロードするコンフィグファイル<br>
-デフォルト：config.json
+Configuration file to be loaded<br>
+Default：config.json
 
 # Using GrabCut-Annotation-Tool
-### ファイル選択
-ファイル一覧をクリックすることでアノテーション対象を切り替えることが出来ます。<br>
-ショートカットキー　↑、p：上のファイルへ　↓、n：下のファイルへ<br>
+### File select
+You can switch the annotation target by clicking the file list.<br>
+keyboard shortcut 　↑、p：preview file　↓、n：next file<br>
 <img src="https://user-images.githubusercontent.com/37477845/131686101-c94132bc-4b76-488a-85fe-69d9d9c216bd.png" width="80%">
 
-### 初期ROI指定
-「Select ROI」と表示されている時にマウス右ドラッグで初期ROIを指定できます。<br>
+### Initial ROI designation
+You can specify the initial ROI by right-drag the mouse when "Select ROI" is displayed.<br>
 <img src="https://user-images.githubusercontent.com/37477845/131687291-4f4c06d5-89fa-452d-925f-5576edc5af64.png" width="80%"><br><br>
 
-ドラッグ終了後、GrabCut処理が行われます。<br>
+After the drag is finished, GrabCut processing is performed.<br>
 <img src="https://user-images.githubusercontent.com/37477845/131687690-295dc463-f82e-447b-86f8-65bbf6cf4e2d.png" width="80%"><br><br>
 
-領域が選択されます。<br>
+The area is selected.<br>
 <img src="https://user-images.githubusercontent.com/37477845/131688127-3fc1c00e-0f99-435a-aa29-d9392c7af6d0.png" width="80%"><br><br>
 
-### 後景指定
-マウス右ドラッグで後景の指定が出来ます。<br>
+### Background designation
+You can specify the background by dragging the right mouse button.<br>
 <img src="https://user-images.githubusercontent.com/37477845/131688309-c47184d9-f793-49f0-aa26-445ea2c2b431.png" width="80%"><br><br>
 
 <img src="https://user-images.githubusercontent.com/37477845/131688599-dc78e307-8a3b-4ec7-a9be-05325486ee5e.png" width="80%"><br><br>
 
 ### 前景指定
-「Manually label background」のチェックを外すことで前景指定に切り替えることが出来ます<br>
-ショートカットキー　Ctrl<br>
+You can switch to foreground specification by unchecking "Manually label background".<br>
+keyboard shortcut　Ctrl<br>
 <img src="https://user-images.githubusercontent.com/37477845/131688947-ab0505ca-8413-4afe-8d5a-c42ae1f25a3f.png" width="80%"><br><br>
 
-マウス右ドラッグで前景の指定が出来ます。<br>
+You can specify the foreground by dragging the right mouse button.<br>
 <img src="https://user-images.githubusercontent.com/37477845/131689310-5447308d-2019-48d7-8a43-df7707969599.png" width="80%"><br><br>
 
 <img src="https://user-images.githubusercontent.com/37477845/131689509-ea0597a4-939a-4821-a077-40720687e8b1.png" width="80%"><br><br>
 
-### クラスID切り替え
-Class IDのチェックボックスを押すことでクラスIDを切り替えることが出来ます。<br>
-一桁のIDはショートカットキーでの切り替えも可能です。<br>
-ショートカットキー　0-9<br>
+### Class ID switching
+You can switch the class ID by pressing the check box.<br>
+The single digit ID can be switched with a shortcut key.<br>
+keyboard shortcut　0-9<br>
 <img src="https://user-images.githubusercontent.com/37477845/131690009-862e763d-9714-4420-bf9c-7185daa0bbff.png" width="80%"><br><br>
 
-クラスID切り替え後はROI指定を行う必要があります。<br>
+After switching the class ID, it is necessary to specify the ROI.<br>
 <img src="https://user-images.githubusercontent.com/37477845/131690463-667530d6-6e89-4eec-88ff-8a5aaf55a8a1.png" width="80%"><br><br>
 
 <img src="https://user-images.githubusercontent.com/37477845/131690674-293340bc-eedb-48dc-9a20-8a5e4e61d1db.png" width="80%"><br><br>
 
-### 自動保存
-リサイズ画像とアノテーション画像はGrabCut処理毎に自動保存されます。<br>
+### Auto save
+Resized images and annotation images are automatically saved for each GrabCut process.<br>
 <img src="https://user-images.githubusercontent.com/37477845/131691035-ab98cf83-f659-4efe-89aa-896badcee985.png" width="50%"><br><br>
 
-自動保存をしたくない場合は「Auto save」のチェックを外してください。<br>
-自動保存以外で保存したい場合は、キーボード「s」を押してください。<br>
+If you do not want to save automatically, uncheck "Auto save".<br>
+If you want to save other than auto save, press "s" on the keyboard.<br>
 <img src="https://user-images.githubusercontent.com/37477845/131691394-72adf13c-c4dc-4df3-b1b2-f33d38acf226.png" width="80%"><br><br>
 
-### その他設定
+### Other settings
 <img src="https://user-images.githubusercontent.com/37477845/131691853-0ce525ee-34dc-4328-9978-2ee8903a4d8e.png" width="80%"><br>
-* Mask alpha：画像のマスク重畳表示の濃淡具合
-* Iteration：GrabCutアルゴリズムのイテレーション回数
-* Draw thickness：前景/後景指定時の線の太さ
-* Output width：出力画像の横幅
-* Output height：出力画像の縦幅
+* Mask alpha：Image Mask Superimpose Display Shading Degree
+* Iteration：Number of iterations of the GrabCut algorithm
+* Draw thickness：Line thickness when foreground / background is specified
+* Output width：Width of output image
+* Output height：Vertical width of output image
 
 # Author
-高橋かずひと(https://twitter.com/KzhtTkhs)
+Kazuhito Takahashi(https://twitter.com/KzhtTkhs)
  
 # License 
 GrabCut-Annotation-Tool is under [Apache-2.0 License](LICENSE).
 
-サンプル画像は[フリー素材ぱくたそ](https://www.pakutaso.com)様の写真を利用しています。
+The sample image uses the photograph of [フリー素材 ぱくたそ](https://www.pakutaso.com).
