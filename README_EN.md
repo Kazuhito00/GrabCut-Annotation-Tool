@@ -3,7 +3,7 @@ https://user-images.githubusercontent.com/37477845/131681382-020df52c-dbc7-4750-
 
 Annotation tool using GrabCut() of OpenCV.<br>
 It can be used to create datasets for semantic segmentation.<br>
-* Due to GrabCut's algorithm, it is suitable for annotation of data with clear boundaries.<br>
+\* Due to GrabCut's algorithm, it is suitable for annotation of data with clear boundaries.<br>
 
 # Requirement 
 * opencv-python 4.5.2.54 or later
