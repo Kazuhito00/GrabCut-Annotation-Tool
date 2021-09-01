@@ -1,3 +1,5 @@
+[Japanese/[English](https://github.com/Kazuhito00/GrabCut-Annotation-Tool/blob/main/README_EN.md)]
+
 # GrabCut-Annotation-Tool
 https://user-images.githubusercontent.com/37477845/131681382-020df52c-dbc7-4750-80d1-42ff141ba829.mp4
 
