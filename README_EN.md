@@ -116,7 +116,7 @@ If you want to save other than auto save, press "s" on the keyboard.<br>
 * Output height：Vertical width of output image
 
 # ToDo
-- [ ] Memory leak improvement
+- [x] Memory leak improvement
 
 # Author
 Kazuhito Takahashi(https://twitter.com/KzhtTkhs)

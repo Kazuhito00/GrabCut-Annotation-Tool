@@ -118,7 +118,7 @@ Class IDのチェックボックスを押すことでクラスIDを切り替え�
 * Output height：出力画像の縦幅
 
 # ToDo
-- [ ] メモリリーク対策
+- [x] メモリリーク対策
 
 # Author
 高橋かずひと(https://twitter.com/KzhtTkhs)
