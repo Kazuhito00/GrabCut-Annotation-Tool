@@ -23,6 +23,8 @@ class AppGui(object):
     _file_currrent_index = 0
 
     _DISPLAY_IMAGE_SIZE = (512, 512)
+    _graph_image_id = None
+    _graph_mask_id = None
 
     MOUSE_EVENT_NONE = 0
     MOUSE_EVENT_DRAG_START = 1
@@ -400,9 +402,13 @@ class AppGui(object):
         # バイト列へ変換
         bytes_image = cv.imencode('.png', image)[1].tobytes()
 
-        # 画面描画
         imaga_height = self._DISPLAY_IMAGE_SIZE[1]
-        self._window['-IMAGE ORIGINAL-'].draw_image(
+
+        # 画面描画
+        if self._graph_image_id is not None:
+            self._window['-IMAGE ORIGINAL-'].delete_figure(
+                self._graph_image_id)
+        self._graph_image_id = self._window['-IMAGE ORIGINAL-'].draw_image(
             data=bytes_image,
             location=(0, imaga_height),
         )
@@ -428,9 +434,12 @@ class AppGui(object):
             png_image.save(bytes_image, format='PNG')
             bytes_image = bytes_image.getvalue()
 
-        # 画面描画
         imaga_height = self._DISPLAY_IMAGE_SIZE[1]
-        self._window['-IMAGE MASK-'].draw_image(
+
+        # 画面描画
+        if self._graph_mask_id is not None:
+            self._window['-IMAGE MASK-'].delete_figure(self._graph_mask_id)
+        self._graph_mask_id = self._window['-IMAGE MASK-'].draw_image(
             data=bytes_image,
             location=(0, imaga_height),
         )
