@@ -117,8 +117,8 @@ If you want to save other than auto save, press "s" on the keyboard.<br>
 
 # ToDo
 - [x] ~~Memory leak improvement~~
-- [ ] Allows other than upper left → lower right drag when ROI is selected
-- [ ] Show ROI selection when class ID is selected with a shortcut key
+- [x] ~~Allows other than upper left → lower right drag when ROI is selected~~
+- [x] ~~Show ROI selection when class ID is selected with a shortcut key~~
 
 # Author
 Kazuhito Takahashi(https://twitter.com/KzhtTkhs)
