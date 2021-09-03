@@ -118,7 +118,9 @@ Class IDのチェックボックスを押すことでクラスIDを切り替え�
 * Output height：出力画像の縦幅
 
 # ToDo
-- [x] メモリリーク対策
+- [x] ~~メモリリーク対策~~
+- [ ] ROI選択時に左上→右下ドラッグ以外も可能にする
+- [ ] クラスIDをショートカットキーで選択した際にROI選択表示にする
 
 # Author
 高橋かずひと(https://twitter.com/KzhtTkhs)
