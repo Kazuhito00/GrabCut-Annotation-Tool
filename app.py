@@ -17,6 +17,7 @@ import core.util as util
 
 image_list, mask_list, debug_image_list = [], [], []
 bgd_model_list, fgd_model_list = [], []
+prev_class_id = -1
 
 
 def get_args():
@@ -49,7 +50,8 @@ def get_args():
 
 
 def initialize_grabcut_list(class_num, image, mask):
-    global image_list, mask_list, bgd_model_list, fgd_model_list, debug_image_list
+    global image_list, mask_list, bgd_model_list, fgd_model_list, \
+            debug_image_list
 
     if len(image_list) == 0:
         for index in range(class_num):
@@ -203,25 +205,32 @@ def process_select_roi_mode(
     roi = None
     grabcut_execute = False
 
+    # ROI取得
+    if (mouse_start_point is not None and mouse_end_point is not None):
+        min_x = (mouse_start_point[0]) if (
+            mouse_start_point[0] < mouse_end_point[0]) else (
+                mouse_end_point[0])
+        man_x = (mouse_start_point[0]) if (
+            mouse_start_point[0] > mouse_end_point[0]) else (
+                mouse_end_point[0])
+        min_y = (mouse_start_point[1]) if (
+            mouse_start_point[1] < mouse_end_point[1]) else (
+                mouse_end_point[1])
+        man_y = (mouse_start_point[1]) if (
+            mouse_start_point[1] > mouse_end_point[1]) else (
+                mouse_end_point[1])
+        roi = [min_x, min_y, man_x, man_y]
+
     # マウスドラッグ開始時
     if mouse_event == appgui.MOUSE_EVENT_DRAG:
         debug_image = draw_roi_mode_image(image)
 
     # マウスドラッグ中の場合、ROI領域を描画
     if mouse_event == appgui.MOUSE_EVENT_DRAG:
-        roi = [
-            mouse_start_point[0],
-            mouse_start_point[1],
-            mouse_end_point[0],
-            mouse_end_point[1],
-        ]
         debug_image = draw_roi_mode_image(image, roi)
 
     # マウスドラッグ終了時にGrabCutを実施
     if mouse_event == appgui.MOUSE_EVENT_DRAG_END:
-        roi = (mouse_start_point[0], mouse_start_point[1], mouse_end_point[0],
-               mouse_end_point[1])
-
         # 処理中表示
         loading_image = draw_processing_image(image)
         appgui.draw_image(loading_image)
@@ -416,8 +425,28 @@ def event_handler_file_select_down(event_kind, appgui):
 
 # イベントハンドラー：クラスID選択
 def event_handler_select_class_id(event_kind, appgui):
+    global prev_class_id, image_list, mask_list
+
     class_id = int(event_kind.replace('-', ''))
     appgui.set_setting_class_id(class_id)
+
+    # クラスID選択変更時
+    if prev_class_id != class_id:
+        # 描画更新
+        debug_image = draw_roi_mode_image(image_list[class_id])
+        debug_image_list[class_id] = debug_image
+
+        appgui.draw_image(debug_image_list[class_id])
+        appgui.draw_mask_image(mask_list)
+        appgui.read_window(timeout=1)
+
+        prev_class_id = class_id
+
+        # 設定リセット
+        appgui.set_setting_lable_background(True)
+
+        # ROI選択モード(ROI_MODE)に遷移
+        appgui.mode = appgui.ROI_MODE
 
 
 # イベントハンドラー：前景/後景指定選択
@@ -510,8 +539,8 @@ def get_event_handler_list():
 
 
 def main():
-    global image_list, mask_list, debug_image_list, \
-                bgd_model_list, fgd_model_list, output_annotation_path
+    global image_list, mask_list, debug_image_list, bgd_model_list, \
+            fgd_model_list, output_annotation_path, prev_class_id
 
     # 引数解析 #################################################################
     args = get_args()
@@ -581,24 +610,11 @@ def main():
     event_handler_list = get_event_handler_list()
 
     while True:
-        event, values = appgui.read_window()
+        event, _ = appgui.read_window()
         auto_save = appgui.get_setting_auto_save()
         class_id = appgui.get_setting_class_id()
         output_width = appgui.get_setting_output_width()
         output_height = appgui.get_setting_output_height()
-
-        # クラスID選択変更時
-        if prev_class_id != class_id:
-            appgui.mode = appgui.ROI_MODE
-
-            debug_image = draw_roi_mode_image(image_list[class_id])
-            debug_image_list[class_id] = debug_image
-
-            appgui.draw_image(debug_image_list[class_id])
-            appgui.draw_mask_image(mask_list)
-            appgui.read_window(timeout=1)
-
-            prev_class_id = class_id
 
         # マウス座標
         mosue_info = get_mouse_start_end_point(
