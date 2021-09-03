@@ -251,6 +251,14 @@ def process_select_roi_mode(
         # 前景/後景の手修正するモード(GRABCUT_MODE)へ遷移
         appgui.mode = appgui.GRABCUT_MODE
 
+        # 前景/背景情報提示
+        label_background = appgui.get_setting_lable_background()
+        if label_background:
+            color = (0, 0, 255)
+        else:
+            color = (255, 0, 0)
+        cv.rectangle(debug_image, (0, 0), (511, 511), color=color, thickness=3)
+
         grabcut_execute = True
 
     # 画像描画
@@ -286,15 +294,16 @@ def process_grabcut_mode(
 
     grabcut_execute = False
 
-    # マウスドラッグ中の場合、手修正指定を描画
-    if mouse_event == appgui.MOUSE_EVENT_DRAG_START or \
-            mouse_event == appgui.MOUSE_EVENT_DRAG:
         if label_background:
             color = (0, 0, 255)
             manually_label_value = 0
         else:
             color = (255, 0, 0)
             manually_label_value = 1
+
+    # マウスドラッグ中の場合、手修正指定を描画
+    if mouse_event == appgui.MOUSE_EVENT_DRAG_START or \
+            mouse_event == appgui.MOUSE_EVENT_DRAG:
 
         debug_image, mask = draw_grabcut_mode_image(
             debug_image,
@@ -323,6 +332,9 @@ def process_grabcut_mode(
             mask_alpha,
             mask_beta,
         )
+
+        # 前景/背景情報提示
+        cv.rectangle(debug_image, (0, 0), (511, 511), color=color, thickness=3)
 
         grabcut_execute = True
 
@@ -425,7 +437,7 @@ def event_handler_file_select_down(event_kind, appgui):
 
 # イベントハンドラー：クラスID選択
 def event_handler_select_class_id(event_kind, appgui):
-    global prev_class_id, image_list, mask_list
+    global prev_class_id, image_list, mask_list, debug_image_list
 
     class_id = int(event_kind.replace('-', ''))
     appgui.set_setting_class_id(class_id)
@@ -451,9 +463,25 @@ def event_handler_select_class_id(event_kind, appgui):
 
 # イベントハンドラー：前景/後景指定選択
 def event_handler_change_manually_label(event_kind, appgui):
+    global debug_image_list
+
     label_background = not appgui.get_setting_lable_background()
     appgui.set_setting_lable_background(label_background)
     label_background = appgui.get_setting_lable_background()
+
+    # 前景/背景情報提示
+    if appgui.mode == appgui.GRABCUT_MODE:
+        class_id = appgui.get_setting_class_id()
+        label_background = appgui.get_setting_lable_background()
+        if label_background:
+            color = (0, 0, 255)
+        else:
+            color = (255, 0, 0)
+        cv.rectangle(debug_image_list[class_id], (0, 0), (511, 511),
+                     color=color,
+                     thickness=3)
+
+        appgui.draw_image(debug_image_list[class_id])
 
 
 # イベントハンドラー：設定変更
