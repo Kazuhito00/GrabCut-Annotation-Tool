@@ -294,12 +294,12 @@ def process_grabcut_mode(
 
     grabcut_execute = False
 
-        if label_background:
-            color = (0, 0, 255)
-            manually_label_value = 0
-        else:
-            color = (255, 0, 0)
-            manually_label_value = 1
+    if label_background:
+        color = (0, 0, 255)
+        manually_label_value = 0
+    else:
+        color = (255, 0, 0)
+        manually_label_value = 1
 
     # マウスドラッグ中の場合、手修正指定を描画
     if mouse_event == appgui.MOUSE_EVENT_DRAG_START or \
